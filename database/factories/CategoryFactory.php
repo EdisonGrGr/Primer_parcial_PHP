@@ -16,7 +16,7 @@ class CategoryFactory extends Factory
      */
     public function definition(): array
     {
-        // Categorías realistas para vehículos
+        
         $vehicleCategories = [
             ['name' => 'Sedán', 'desc' => 'Vehículos tipo sedán de 4 puertas'],
             ['name' => 'SUV', 'desc' => 'Vehículos utilitarios deportivos de gran tamaño'],
@@ -53,9 +53,7 @@ class CategoryFactory extends Factory
         ];
     }
 
-    /**
-     * Estado específico: Categoría activa
-     */
+    
     public function active(): static
     {
         return $this->state(fn (array $attributes) => [
@@ -63,9 +61,7 @@ class CategoryFactory extends Factory
         ]);
     }
 
-    /**
-     * Estado específico: Categoría inactiva
-     */
+    
     public function inactive(): static
     {
         return $this->state(fn (array $attributes) => [
@@ -73,9 +69,7 @@ class CategoryFactory extends Factory
         ]);
     }
 
-    /**
-     * Estado específico: Categoría premium con descuento alto
-     */
+   
     public function premium(): static
     {
         return $this->state(fn (array $attributes) => [
@@ -85,9 +79,7 @@ class CategoryFactory extends Factory
         ]);
     }
 
-    /**
-     * Estado específico: Categoría básica sin descuento
-     */
+    
     public function basic(): static
     {
         return $this->state(fn (array $attributes) => [
@@ -97,9 +89,7 @@ class CategoryFactory extends Factory
         ]);
     }
 
-    /**
-     * Estado específico: Categoría con nombre personalizado
-     */
+    
     public function withName(string $name): static
     {
         return $this->state(fn (array $attributes) => [

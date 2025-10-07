@@ -9,16 +9,9 @@ use App\Models\Category;
 
 class CarSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     * 
-     * Este seeder utiliza CarFactory para poblar la tabla de cars.
-     * IMPORTANTE: Requiere que CategorySeeder se ejecute primero
-     * para asegurar que existan categorías para asignar FK.
-     */
+    
     public function run(): void
     {
-        // Verificar que existan categorías antes de crear carros
         $categoriesCount = Category::count();
         
         if ($categoriesCount === 0) {
@@ -26,34 +19,34 @@ class CarSeeder extends Seeder
             $this->call(CategorySeeder::class);
         }
 
-        // 1. Crear carros de lujo disponibles
+        
         Car::factory()
             ->luxury()
             ->available()
             ->count(8)
             ->create();
 
-        // 2. Crear carros económicos
+        
         Car::factory()
             ->economy()
             ->available()
             ->count(12)
             ->create();
 
-        // 3. Crear carros no disponibles (para testing)
+        
         Car::factory()
             ->unavailable()
             ->count(5)
             ->create();
 
-        // 4. Crear algunos carros sin categoría
+        
         Car::factory()
             ->withoutCategory()
             ->available()
             ->count(3)
             ->create();
 
-        // 5. Crear carros con categorías específicas si existen
+        
         $sedanCategory = Category::where('name', 'Sedán')->first();
         if ($sedanCategory) {
             Car::factory()
@@ -72,12 +65,12 @@ class CarSeeder extends Seeder
                 ->create();
         }
 
-        // 6. Crear carros completamente aleatorios
+        
         Car::factory()
             ->count(15)
             ->create();
 
-        // Mostrar resumen de lo creado
+       
         $totalExpected = 8 + 12 + 5 + 3 + 6 + 4 + 15;
         
         $this->command->info('CarSeeder completado:');
@@ -90,7 +83,7 @@ class CarSeeder extends Seeder
         $this->command->info('- Carros aleatorios: 15');
         $this->command->info('📊 Total esperado: ' . $totalExpected . ' carros');
         
-        // Mostrar estadísticas de categorías asignadas
+        
         $carsWithCategory = Car::whereNotNull('category_id')->count();
         $carsWithoutCategory = Car::whereNull('category_id')->count();
         

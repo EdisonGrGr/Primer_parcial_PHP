@@ -15,7 +15,6 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        // Obtener categorías paginadas ordenadas por prioridad y luego por nombre
         $categories = Category::orderBy('priority', 'asc')
                              ->orderBy('name', 'asc')
                              ->paginate(10);
@@ -64,18 +63,11 @@ class CategoryController extends Controller
     }
 
     /**
-     * Listar todas las categorías activas con sus carros relacionados.
-     * 
-     * Punto 8.1: Método adicional que lista categorías con estado = true
-     * e incluye los registros de carros que están relacionados con cada categoría.
-     * 
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * Display active categories with related cars.
      */
     public function active()
     {
-        // Obtener categorías activas con sus carros relacionados usando eager loading
         $activeCategories = Category::with(['cars' => function ($query) {
-                                        // Opcional: ordenar carros por nombre
                                         $query->orderBy('car_make', 'asc')
                                               ->orderBy('car_model', 'asc');
                                     }])
@@ -88,16 +80,10 @@ class CategoryController extends Controller
     }
 
     /**
-     * Método alternativo: Listar categorías activas con carros disponibles solamente.
-     * 
-     * Este método es útil cuando solo se quieren mostrar carros que están disponibles
-     * para venta dentro de las categorías activas.
-     * 
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * Display active categories with available cars only.
      */
     public function activeWithAvailableCars()
     {
-        // Obtener categorías activas con solo carros disponibles
         $activeCategories = Category::with(['cars' => function ($query) {
                                         $query->where('car_status', true)
                                               ->orderBy('car_make', 'asc')
@@ -112,16 +98,10 @@ class CategoryController extends Controller
     }
 
     /**
-     * Método con paginación: Listar categorías activas con carros (paginado).
-     * 
-     * Para casos donde hay muchas categorías, este método permite paginar
-     * manteniendo la funcionalidad de eager loading.
-     * 
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * Display active categories with cars (paginated).
      */
     public function activePaginated()
     {
-        // Obtener categorías activas paginadas con sus carros
         $activeCategories = Category::with(['cars' => function ($query) {
                                         $query->orderBy('car_make', 'asc')
                                               ->orderBy('car_model', 'asc');
@@ -129,7 +109,7 @@ class CategoryController extends Controller
                                     ->where('estado', true)
                                     ->orderBy('priority', 'asc')
                                     ->orderBy('name', 'asc')
-                                    ->paginate(5); // 5 categorías por página
+                                    ->paginate(5);
 
         return CategoryResource::collection($activeCategories);
     }

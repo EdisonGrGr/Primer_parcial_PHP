@@ -8,16 +8,10 @@ use App\Models\Category;
 
 class CategorySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     * 
-     * Este seeder utiliza CategoryFactory para poblar la tabla de categorías
-     * con una combinación de datos fijos (esenciales) y datos aleatorios.
-     */
+   
     public function run(): void
     {
-        // 1. Crear categorías básicas esenciales del sistema
-        // Estas son categorías core que siempre deben existir
+        
         $essentialCategories = [
             [
                 'name' => 'Sedán',
@@ -38,7 +32,7 @@ class CategorySeeder extends Seeder
                 'description' => 'Vehículos de alto rendimiento, velocidad y diseño aerodinámico',
                 'priority' => 3,
                 'discount_percentage' => 0.00,
-                'estado' => false, // Inactivo para testing
+                'estado' => false, 
             ],
             [
                 'name' => 'Pickup',
@@ -56,41 +50,38 @@ class CategorySeeder extends Seeder
             ],
         ];
 
-        // Crear categorías esenciales usando Factory con datos específicos
+        
         foreach ($essentialCategories as $categoryData) {
             Category::factory()->create($categoryData);
         }
 
-        // 2. Crear categorías premium usando Factory con estado específico
+        
         Category::factory()
             ->premium()
             ->count(3)
             ->create();
 
-        // 3. Crear categorías básicas usando Factory
+        
         Category::factory()
             ->basic()
             ->count(4)
             ->create();
 
-        // 4. Crear categorías aleatorias activas
         Category::factory()
             ->active()
             ->count(8)
             ->create();
 
-        // 5. Crear algunas categorías inactivas para testing
         Category::factory()
             ->inactive()
             ->count(2)
             ->create();
 
-        // 6. Crear categorías completamente aleatorias
         Category::factory()
             ->count(5)
             ->create();
 
-        // Mostrar resumen de lo creado
+        
         $this->command->info('CategorySeeder completado:');
         $this->command->info('- Categorías esenciales: ' . count($essentialCategories));
         $this->command->info('- Categorías premium: 3');

@@ -18,20 +18,20 @@ class UpdateCarRequest extends FormRequest
         $carId = $this->route('car')->id_car ?? null;
 
         return [
-            // 'sometimes' permite actualizaciones parciales
+            
             'car_make'  => 'sometimes|required|string|max:100',
             'car_model' => 'sometimes|required|string|max:100',
             'car_year'  => "sometimes|required|integer|min:1900|max:$currentYear",
             'car_price' => 'sometimes|required|numeric|min:0',
             'car_status'=> 'sometimes|boolean',
             
-            // Validación avanzada de FK según documentación Laravel
+            
             'category_id' => [
                 'sometimes',
                 'nullable',
                 'integer',
                 Rule::exists('categories', 'id')->where(function ($query) {
-                    // Solo categorías activas
+                    
                     $query->where('estado', true);
                 }),
             ],
@@ -41,15 +41,13 @@ class UpdateCarRequest extends FormRequest
                 'nullable',
                 'string',
                 'max:255',
-                'regex:/^[A-Za-z0-9_-]+$/', // Solo alfanuméricos, guiones y guiones bajos
+                'regex:/^[A-Za-z0-9_-]+$/', 
                 Rule::unique('cars', 'codigo_barras')->ignore($carId, 'id_car'),
             ],
         ];
     }
 
-    /**
-     * Mensajes de error personalizados según documentación Laravel
-     */
+    
     public function messages(): array
     {
         return [
@@ -67,9 +65,7 @@ class UpdateCarRequest extends FormRequest
         ];
     }
 
-    /**
-     * Nombres de atributos personalizados
-     */
+    
     public function attributes(): array
     {
         return [

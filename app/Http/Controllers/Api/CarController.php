@@ -11,16 +11,18 @@ use App\Http\Resources\CarResource;
 
 class CarController extends Controller
 {
-    // GET /api/cars
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        // paginado para no traer todo si hay muchos registros
-        // Incluimos la relación de categoría para mostrar información completa
         $cars = Car::with('category')->orderBy('id_car', 'desc')->paginate(10);
         return CarResource::collection($cars);
     }
 
-    // POST /api/cars
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(StoreCarRequest $request)
     {
         $data = $request->validated();
@@ -28,15 +30,18 @@ class CarController extends Controller
         return new CarResource($car);
     }
 
-    // GET /api/cars/{car}
+    /**
+     * Display the specified resource.
+     */
     public function show(Car $car)
     {
-        // Cargar la relación de categoría para incluir toda su información
         $car->load('category');
         return new CarResource($car);
     }
 
-    // PUT/PATCH /api/cars/{car}
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(UpdateCarRequest $request, Car $car)
     {
         $data = $request->validated();
@@ -44,7 +49,9 @@ class CarController extends Controller
         return new CarResource($car);
     }
 
-    // DELETE /api/cars/{car}
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(Car $car)
     {
         $car->delete();

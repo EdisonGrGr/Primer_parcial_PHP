@@ -18,7 +18,6 @@ class CarResource extends JsonResource
             'status' => $this->car_status,
             'category_id' => $this->category_id,
             'codigo_barras' => $this->codigo_barras,
-            // Incluir toda la información de la categoría usando CategoryResource
             'category' => $this->whenLoaded('category', function () {
                 return new CategoryResource($this->category);
             }),

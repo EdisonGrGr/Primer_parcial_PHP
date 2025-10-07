@@ -12,8 +12,6 @@ Route::get('/user', function (Request $request) {
 // API Resource routes for Cars
 Route::apiResource('cars', CarController::class);
 
-// Rutas personalizadas para categorías activas con sus autos
-// IMPORTANTE: Deben ir ANTES del apiResource para que no sean interceptadas
 Route::get('/categories/active', [CategoryController::class, 'active'])
     ->name('categories.active');
 

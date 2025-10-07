@@ -14,7 +14,7 @@ class CarFactory extends Factory
 
     public function definition(): array
     {
-        // Marcas reales de automóviles
+        
         $makes = [
             'Toyota', 'Honda', 'Ford', 'Chevrolet', 'Nissan', 'BMW', 'Mercedes-Benz',
             'Audi', 'Volkswagen', 'Hyundai', 'Kia', 'Mazda', 'Subaru', 'Lexus',
@@ -23,7 +23,7 @@ class CarFactory extends Factory
             'Porsche', 'Ferrari', 'Lamborghini', 'Maserati', 'Bentley', 'Rolls-Royce'
         ];
 
-        // Modelos por marca (ejemplos reales y comunes)
+        
         $models = [
             'Toyota' => ['Camry', 'Corolla', 'RAV4', 'Highlander', 'Prius', 'Tacoma', 'Sienna', 'Yaris', 'Avalon'],
             'Honda' => ['Civic', 'Accord', 'CR-V', 'Pilot', 'Odyssey', 'Fit', 'HR-V', 'Ridgeline', 'Passport'],
@@ -47,11 +47,10 @@ class CarFactory extends Factory
 
         $selectedMake = $this->faker->randomElement($makes);
         
-        // Si la marca tiene modelos específicos, usar uno; si no, generar uno genérico
+        
         if (isset($models[$selectedMake])) {
             $selectedModel = $this->faker->randomElement($models[$selectedMake]);
         } else {
-            // Para marcas sin modelos específicos, crear nombres más realistas
             $modelPrefixes = ['Series', 'Class', 'Model', 'Type'];
             $selectedModel = $this->faker->randomElement($modelPrefixes) . ' ' . $this->faker->randomElement(['A', 'B', 'C', 'X', 'Z']) . $this->faker->numberBetween(1, 9);
         }
@@ -61,23 +60,19 @@ class CarFactory extends Factory
             'car_model' => $selectedModel,
             'car_year'  => $this->faker->numberBetween(2000, date('Y')),
             'car_price' => $this->faker->randomFloat(2, 15000, 150000),
-            'car_status'=> $this->faker->boolean(85), // 85% de probabilidad de estar disponible
+            'car_status'=> $this->faker->boolean(85), 
             
-            // Asignación aleatoria de categoría existente
             'category_id' => function () {
-                // Obtener IDs de categorías existentes de manera aleatoria
                 $categoryIds = \App\Models\Category::pluck('id')->toArray();
-                
-                // Si no hay categorías, retornar null
                 if (empty($categoryIds)) {
                     return null;
                 }
                 
-                // Retornar un ID aleatorio de las categorías existentes
+                
                 return $this->faker->randomElement($categoryIds);
             },
             
-            // Generación de código de barras único
+            
             'codigo_barras' => function () {
                 $prefix = $this->faker->randomElement(['CAR', 'VEH', 'AUTO', 'MOT']);
                 $year = date('Y');
@@ -87,9 +82,7 @@ class CarFactory extends Factory
         ];
     }
 
-    /**
-     * Estado específico: Carro con categoría específica
-     */
+    
     public function withCategory($categoryId): static
     {
         return $this->state(fn (array $attributes) => [
@@ -97,9 +90,7 @@ class CarFactory extends Factory
         ]);
     }
 
-    /**
-     * Estado específico: Carro sin categoría
-     */
+    
     public function withoutCategory(): static
     {
         return $this->state(fn (array $attributes) => [
@@ -107,9 +98,7 @@ class CarFactory extends Factory
         ]);
     }
 
-    /**
-     * Estado específico: Carro activo/disponible
-     */
+    
     public function available(): static
     {
         return $this->state(fn (array $attributes) => [
@@ -117,9 +106,7 @@ class CarFactory extends Factory
         ]);
     }
 
-    /**
-     * Estado específico: Carro no disponible
-     */
+    
     public function unavailable(): static
     {
         return $this->state(fn (array $attributes) => [
@@ -127,9 +114,7 @@ class CarFactory extends Factory
         ]);
     }
 
-    /**
-     * Estado específico: Carro de lujo (precio alto)
-     */
+    
     public function luxury(): static
     {
         return $this->state(fn (array $attributes) => [
@@ -138,9 +123,7 @@ class CarFactory extends Factory
         ]);
     }
 
-    /**
-     * Estado específico: Carro económico (precio bajo)
-     */
+    
     public function economy(): static
     {
         return $this->state(fn (array $attributes) => [
@@ -149,9 +132,7 @@ class CarFactory extends Factory
         ]);
     }
 
-    /**
-     * Estado específico: Carro con código de barras personalizado
-     */
+    
     public function withBarcode(string $barcode): static
     {
         return $this->state(fn (array $attributes) => [

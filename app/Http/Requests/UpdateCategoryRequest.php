@@ -21,8 +21,7 @@ class UpdateCategoryRequest extends FormRequest
      */
     public function rules(): array
     {
-        // Obtener el ID de la categoría actual para excluirla de la validación unique
-        $categoryId = $this->route('category')?->id;
+                $categoryId = $this->route('category') ? $this->route('category')->id : null;
 
         return [
             'name' => 'sometimes|required|string|max:100|unique:categories,name,' . $categoryId,

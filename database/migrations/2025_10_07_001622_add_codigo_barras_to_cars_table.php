@@ -12,8 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('cars', function (Blueprint $table) {
-            // Agregar columna codigo_barras de tipo string
-            // SIN valor por defecto (nullable para registros existentes)
             $table->string('codigo_barras')->nullable()->after('category_id');
         });
     }
@@ -24,7 +22,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('cars', function (Blueprint $table) {
-            // Eliminar la columna codigo_barras
             $table->dropColumn('codigo_barras');
         });
     }

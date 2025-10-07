@@ -9,7 +9,7 @@ class StoreCarRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true; // si no usas auth, deja true
+        return true; 
     }
 
     public function rules(): array
@@ -23,12 +23,12 @@ class StoreCarRequest extends FormRequest
             'car_price' => 'required|numeric|min:0',
             'car_status'=> 'sometimes|boolean',
             
-            // Validación de FK según documentación Laravel
+            
             'category_id' => [
                 'nullable',
                 'integer',
                 Rule::exists('categories', 'id')->where(function ($query) {
-                    // Solo categorías activas
+                    
                     $query->where('estado', true);
                 }),
             ],
@@ -37,15 +37,13 @@ class StoreCarRequest extends FormRequest
                 'nullable',
                 'string',
                 'max:255',
-                'regex:/^[A-Za-z0-9_-]+$/', // Solo alfanuméricos, guiones y guiones bajos
+                'regex:/^[A-Za-z0-9_-]+$/', 
                 Rule::unique('cars', 'codigo_barras'),
             ],
         ];
     }
 
-    /**
-     * Mensajes de error personalizados según documentación Laravel
-     */
+    
     public function messages(): array
     {
         return [
@@ -63,9 +61,7 @@ class StoreCarRequest extends FormRequest
         ];
     }
 
-    /**
-     * Nombres de atributos personalizados
-     */
+    
     public function attributes(): array
     {
         return [

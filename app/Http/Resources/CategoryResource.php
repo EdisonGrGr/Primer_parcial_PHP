@@ -25,7 +25,6 @@ class CategoryResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             
-            // Incluir carros relacionados cuando están cargados (para punto 8.1)
             'cars' => $this->whenLoaded('cars', function () {
                 return \App\Http\Resources\CarResource::collection($this->cars);
             }),
