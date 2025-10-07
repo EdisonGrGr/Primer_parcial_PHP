@@ -16,6 +16,12 @@ class CarResource extends JsonResource
             'year' => $this->car_year,
             'price' => $this->car_price,
             'status' => $this->car_status,
+            'category_id' => $this->category_id,
+            'codigo_barras' => $this->codigo_barras,
+            // Incluir toda la información de la categoría usando CategoryResource
+            'category' => $this->whenLoaded('category', function () {
+                return new CategoryResource($this->category);
+            }),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

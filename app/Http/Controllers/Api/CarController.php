@@ -15,7 +15,8 @@ class CarController extends Controller
     public function index()
     {
         // paginado para no traer todo si hay muchos registros
-        $cars = Car::orderBy('id_car', 'desc')->paginate(10);
+        // Incluimos la relación de categoría para mostrar información completa
+        $cars = Car::with('category')->orderBy('id_car', 'desc')->paginate(10);
         return CarResource::collection($cars);
     }
 
@@ -30,6 +31,8 @@ class CarController extends Controller
     // GET /api/cars/{car}
     public function show(Car $car)
     {
+        // Cargar la relación de categoría para incluir toda su información
+        $car->load('category');
         return new CarResource($car);
     }
 

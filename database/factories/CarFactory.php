@@ -62,6 +62,100 @@ class CarFactory extends Factory
             'car_year'  => $this->faker->numberBetween(2000, date('Y')),
             'car_price' => $this->faker->randomFloat(2, 15000, 150000),
             'car_status'=> $this->faker->boolean(85), // 85% de probabilidad de estar disponible
+            
+            // Asignación aleatoria de categoría existente
+            'category_id' => function () {
+                // Obtener IDs de categorías existentes de manera aleatoria
+                $categoryIds = \App\Models\Category::pluck('id')->toArray();
+                
+                // Si no hay categorías, retornar null
+                if (empty($categoryIds)) {
+                    return null;
+                }
+                
+                // Retornar un ID aleatorio de las categorías existentes
+                return $this->faker->randomElement($categoryIds);
+            },
+            
+            // Generación de código de barras único
+            'codigo_barras' => function () {
+                $prefix = $this->faker->randomElement(['CAR', 'VEH', 'AUTO', 'MOT']);
+                $year = date('Y');
+                $randomNumber = $this->faker->unique()->numberBetween(100000, 999999);
+                return $prefix . $year . '_' . $randomNumber;
+            },
         ];
+    }
+
+    /**
+     * Estado específico: Carro con categoría específica
+     */
+    public function withCategory($categoryId): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'category_id' => $categoryId,
+        ]);
+    }
+
+    /**
+     * Estado específico: Carro sin categoría
+     */
+    public function withoutCategory(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'category_id' => null,
+        ]);
+    }
+
+    /**
+     * Estado específico: Carro activo/disponible
+     */
+    public function available(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'car_status' => true,
+        ]);
+    }
+
+    /**
+     * Estado específico: Carro no disponible
+     */
+    public function unavailable(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'car_status' => false,
+        ]);
+    }
+
+    /**
+     * Estado específico: Carro de lujo (precio alto)
+     */
+    public function luxury(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'car_price' => $this->faker->randomFloat(2, 80000, 200000),
+            'car_year' => $this->faker->numberBetween(2020, date('Y')),
+        ]);
+    }
+
+    /**
+     * Estado específico: Carro económico (precio bajo)
+     */
+    public function economy(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'car_price' => $this->faker->randomFloat(2, 10000, 25000),
+            'car_year' => $this->faker->numberBetween(2010, 2018),
+        ]);
+    }
+
+    /**
+     * Estado específico: Carro con código de barras personalizado
+     */
+    public function withBarcode(string $barcode): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'codigo_barras' => $barcode,
+        ]);
     }
 }

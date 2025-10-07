@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Http\Resources;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class CategoryResource extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'description' => $this->description,
+            'priority' => $this->priority,
+            'discount_percentage' => $this->discount_percentage,
+            'estado' => $this->estado,
+            'created_date' => $this->created_date?->format('Y-m-d'),
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            
+            // Incluir carros relacionados cuando están cargados (para punto 8.1)
+            'cars' => $this->whenLoaded('cars', function () {
+                return \App\Http\Resources\CarResource::collection($this->cars);
+            }),
+            
+            // Información adicional útil
+            'cars_count' => $this->whenLoaded('cars', function () {
+                return $this->cars->count();
+            }),
+        ];
+    }
+}
