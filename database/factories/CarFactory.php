@@ -60,6 +60,7 @@ class CarFactory extends Factory
             'car_model' => $selectedModel,
             'car_year'  => $this->faker->numberBetween(2000, date('Y')),
             'car_price' => $this->faker->randomFloat(2, 15000, 150000),
+            'color' => $this->faker->safeColorName(),
             'car_status'=> $this->faker->boolean(85), 
             
             'category_id' => function () {

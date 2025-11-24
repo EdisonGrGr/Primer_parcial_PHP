@@ -9,7 +9,7 @@ class Car extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'id_car'; // nombre de la PK
+    protected $primaryKey = 'id_car'; 
     public $incrementing = true;
     protected $keyType = 'int';
 
@@ -20,6 +20,7 @@ class Car extends Model
         'car_model',
         'car_year',
         'car_price',
+        'color',
         'car_status',
         'category_id',
         'codigo_barras',
@@ -45,9 +46,6 @@ class Car extends Model
 
     /**
      * Relación Many-to-One: Un carro pertenece a una categoría
-     * 
-     * Según la documentación de Laravel, belongsTo establece una relación N:1
-     * donde muchos carros pueden pertenecer a una categoría.
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

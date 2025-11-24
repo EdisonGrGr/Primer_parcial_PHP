@@ -29,7 +29,7 @@ class CategoryResource extends JsonResource
                 return \App\Http\Resources\CarResource::collection($this->cars);
             }),
             
-            // Información adicional útil
+            
             'cars_count' => $this->whenLoaded('cars', function () {
                 return $this->cars->count();
             }),

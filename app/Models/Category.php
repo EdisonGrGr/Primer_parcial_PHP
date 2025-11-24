@@ -42,8 +42,6 @@ class Category extends Model
     /**
      * Relación One-to-Many: Una categoría tiene muchos carros
      * 
-     * Según la documentación de Laravel, hasMany establece una relación 1:N
-     * donde una categoría puede tener múltiples carros asociados.
      * 
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

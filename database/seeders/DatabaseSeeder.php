@@ -19,10 +19,11 @@ class DatabaseSeeder extends Seeder
         $this->command->info('🚗 Ejecutando CarSeeder...');
         $this->call(CarSeeder::class);
         
-        $this->command->info('👤 Creando usuario de prueba...');
+        $this->command->info('👤 Creando usuario administrador...');
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'Jhon Garcia',
+            'email' => 'jhon.garcia@ucaldas.edu.co', //Usuario: jhon.garcia@ucaldas.edu.co
+            'password' => bcrypt('password'), // Password: password
         ]);
 
         $this->command->info('✅ Database Seeding completado exitosamente!');

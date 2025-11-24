@@ -21,24 +21,15 @@ class StoreCarRequest extends FormRequest
             'car_model' => 'required|string|max:100',
             'car_year'  => "required|integer|min:1900|max:$currentYear",
             'car_price' => 'required|numeric|min:0',
+            'color' => 'required|string|max:50',
             'car_status'=> 'sometimes|boolean',
             
-            
             'category_id' => [
-                'nullable',
+                'required',
                 'integer',
                 Rule::exists('categories', 'id')->where(function ($query) {
-                    
                     $query->where('estado', true);
                 }),
-            ],
-            
-            'codigo_barras' => [
-                'nullable',
-                'string',
-                'max:255',
-                'regex:/^[A-Za-z0-9_-]+$/', 
-                Rule::unique('cars', 'codigo_barras'),
             ],
         ];
     }
@@ -47,6 +38,20 @@ class StoreCarRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'car_make.required' => 'La marca es obligatoria.',
+            'car_make.max' => 'La marca no debe exceder 100 caracteres.',
+            'car_model.required' => 'El modelo es obligatorio.',
+            'car_model.max' => 'El modelo no debe exceder 100 caracteres.',
+            'car_year.required' => 'El año es obligatorio.',
+            'car_year.integer' => 'El año debe ser un número entero.',
+            'car_year.min' => 'El año debe ser 1900 o posterior.',
+            'car_year.max' => 'El año no puede ser mayor al año actual.',
+            'car_price.required' => 'El precio es obligatorio.',
+            'car_price.numeric' => 'El precio debe ser un número.',
+            'car_price.min' => 'El precio debe ser mayor o igual a 0.',
+            'color.required' => 'El color es obligatorio.',
+            'color.max' => 'El color no debe exceder 50 caracteres.',
+            'category_id.required' => 'La categoría es obligatoria.',
             'category_id.exists' => 'La categoría seleccionada no existe o está inactiva.',
             'category_id.integer' => 'El ID de categoría debe ser un número entero.',
             'codigo_barras.unique' => 'Este código de barras ya está en uso por otro vehículo.',
